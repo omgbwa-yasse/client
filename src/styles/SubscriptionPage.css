@@ -1,0 +1,572 @@
+/* src/styles/SubscriptionPage.css */
+.subscription-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #333;
+  }
+  
+  .subscription-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .back-link {
+    display: inline-block;
+    color: #2a41e8;
+    text-decoration: none;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+  
+  .subscription-header h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+  
+  .subscription-header p {
+    font-size: 18px;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Steps */
+  .subscription-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin: 0 auto 40px;
+  }
+  
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 3px solid #e0e0e0;
+    font-weight: 500;
+    color: #888;
+    transition: all 0.3s;
+  }
+  
+  .step.active {
+    border-color: #2a41e8;
+    color: #2a41e8;
+  }
+  
+  /* Subscription Content */
+  .subscription-content {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Billing Toggle */
+  .billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 15px;
+  }
+  
+  .billing-toggle span {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .billing-toggle span.active {
+    color: #2a41e8;
+    font-weight: 600;
+  }
+  
+  .discount-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  
+  /* Switch Toggle */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2a41e8;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+
+
+/* Plans Container and Cards */
+.plans-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .plan-card {
+    flex: 1;
+    min-width: 280px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  
+  .plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .plan-card.selected {
+    border-color: #2a41e8;
+    background-color: #f8f9ff;
+  }
+  
+  .plan-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .plan-header h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+  
+  .plan-price .amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2a41e8;
+  }
+  
+  .plan-price .period {
+    font-size: 16px;
+    color: #888;
+    margin-left: 5px;
+  }
+  
+  .plan-features {
+    margin-bottom: 25px;
+  }
+  
+  .feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  
+  .feature-icon {
+    color: #4caf50;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .select-plan-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid #2a41e8;
+    color: #2a41e8;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .selected .select-plan-btn {
+    background-color: #2a41e8;
+    color: white;
+  }
+  
+  .select-plan-btn:hover {
+    background-color: #2a41e8;
+    color: white;
+  }
+  
+  /* User Count Section */
+  .user-count-section {
+    background-color: #f8f9ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .user-count-section h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .user-count-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .user-count-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .user-count-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .user-count {
+    font-size: 20px;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  /* Summary Section */
+  .summary-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    margin-bottom: 30px;
+  }
+  
+  .summary-section h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+  
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  .continue-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #2a41e8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .continue-btn:hover {
+    background-color: #1a31d8;
+  }
+  
+  .continue-btn:disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
+  }
+  
+  /* Organization Form */
+  .org-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+  }
+  
+  .org-form h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    flex: 1;
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  
+  .form-group textarea {
+    height: 120px;
+    resize: vertical;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #2a41e8;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .back-btn {
+    padding: 12px 25px;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 6px;
+    color: #555;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  /* Payment Section */
+  .payment-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+  }
+  
+  .payment-section h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  .payment-section > p {
+    color: #666;
+    margin-bottom: 25px;
+  }
+  
+  .payment-methods {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  
+  .payment-method {
+    flex: 1;
+    min-width: 150px;
+    background-color: #f8f9ff;
+    border: 1px solid #e0e4f6;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .payment-method input {
+    margin-right: 10px;
+  }
+  
+  .card-details {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .billing-address h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .agreement-checkbox {
+    margin: 25px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .agreement-checkbox input {
+    margin-right: 10px;
+  }
+  
+  .agreement-checkbox a {
+    color: #2a41e8;
+    text-decoration: none;
+  }
+  
+  .agreement-checkbox a:hover {
+    text-decoration: underline;
+  }
+  
+  .final-summary {
+    background-color: #f8f9ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+  }
+  
+  .final-summary h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .confirm-btn {
+    padding: 14px 30px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #43a047;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .plans-container {
+      flex-direction: column;
+    }
+    
+    .plan-card {
+      width: 100%;
+    }
+    
+    .payment-methods {
+      flex-direction: column;
+    }
+    
+    .payment-method {
+      width: 100%;
+    }
+    
+    .form-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .back-btn, .continue-btn, .confirm-btn {
+      width: 100%;
+      padding: 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .subscription-steps {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .step {
+      border-bottom: none;
+      border-left: 3px solid #e0e0e0;
+      text-align: left;
+      padding-left: 15px;
+    }
+    
+    .step.active {
+      border-color: #2a41e8;
+    }
+    
+    .subscription-header h1 {
+      font-size: 24px;
+    }
+    
+    .subscription-header p {
+      font-size: 16px;
+    }
+    
+    .summary-total {
+      font-size: 16px;
+    }
+  }
