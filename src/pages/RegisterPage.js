@@ -1,7 +1,7 @@
 // src/pages/RegisterPage.js
 import React, { useState } from 'react';
 import '../styles/RegisterPage.css';
-import axios from 'axios';
+import api from '../api';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -24,7 +24,6 @@ function RegisterPage() {
       [name]: type === 'checkbox' ? checked : value
     });
     
-    
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -36,11 +35,9 @@ function RegisterPage() {
   const validate = () => {
     const newErrors = {};
     
-    
     if (!formData.name.trim()) {
       newErrors.name = 'Le nom est requis';
     }
-    
     
     if (!formData.email) {
       newErrors.email = 'L\'email est requis';
@@ -48,19 +45,18 @@ function RegisterPage() {
       newErrors.email = 'Adresse email invalide';
     }
     
-    // Password validation
     if (!formData.password) {
       newErrors.password = 'Le mot de passe est requis';
     } else if (formData.password.length < 8) {
       newErrors.password = 'Le mot de passe doit contenir au moins 8 caractères';
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d])/.test(formData.password)) {
+      newErrors.password = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un symbole';
     }
     
-    // Confirm password validation
     if (formData.password !== formData.password_confirmation) {
       newErrors.password_confirmation = 'Les mots de passe ne correspondent pas';
     }
     
-    // Terms validation
     if (!formData.agreeTerms) {
       newErrors.agreeTerms = 'Vous devez accepter les conditions d\'utilisation';
     }
@@ -86,17 +82,26 @@ function RegisterPage() {
         };
         
         // Appel à l'API d'enregistrement
-        const response = await axios.post('/register', apiData);
+        const response = await api.post('auth/register', apiData);
         
         if (response.data.success) {
           setSubmitSuccess(true);
           
-          // Stockage des informations utilisateur dans localStorage si nécessaire
-          localStorage.setItem('user', JSON.stringify(response.data.data.user));
+          // Stockage du token et des informations utilisateur
+          localStorage.setItem('token', response.data.access_token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          
+          // Configurer l'expiration du token
+          const expiryMinutes = 12; // 12 minutes par défaut pour un nouveau compte
+          const expiryTime = Date.now() + (expiryMinutes * 60 * 1000);
+          localStorage.setItem('tokenExpiry', expiryTime);
+          
+          // Configuration du token par défaut pour les futures requêtes
+          api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
           
           // Redirection après création réussie
           setTimeout(() => {
-            window.location.href = '/Dashboard';
+            window.location.href = '/dashboard';
           }, 2000);
         }
       } catch (error) {
@@ -141,7 +146,7 @@ function RegisterPage() {
           <div className="success-message">
             <div className="success-icon">✓</div>
             <h2>Compte créé avec succès!</h2>
-            <p>Vous allez être redirigé vers la page de connexion...</p>
+            <p>Vous allez être redirigé vers le dashboard...</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="register-form">
@@ -157,6 +162,7 @@ function RegisterPage() {
                 onChange={handleChange}
                 placeholder="Entrez votre nom"
                 className={errors.name ? 'input-error' : ''}
+                required
               />
               {errors.name && <div className="error-text">{typeof errors.name === 'string' ? errors.name : errors.name[0]}</div>}
             </div>
@@ -171,6 +177,7 @@ function RegisterPage() {
                 onChange={handleChange}
                 placeholder="Entrez votre email"
                 className={errors.email ? 'input-error' : ''}
+                required
               />
               {errors.email && <div className="error-text">{typeof errors.email === 'string' ? errors.email : errors.email[0]}</div>}
             </div>
@@ -186,6 +193,7 @@ function RegisterPage() {
                   onChange={handleChange}
                   placeholder="Créez un mot de passe"
                   className={errors.password ? 'input-error' : ''}
+                  required
                 />
                 {errors.password && <div className="error-text">{typeof errors.password === 'string' ? errors.password : errors.password[0]}</div>}
                 <div className="password-requirements">
@@ -203,6 +211,7 @@ function RegisterPage() {
                   onChange={handleChange}
                   placeholder="Confirmez votre mot de passe"
                   className={errors.password_confirmation ? 'input-error' : ''}
+                  required
                 />
                 {errors.password_confirmation && (
                   <div className="error-text">{typeof errors.password_confirmation === 'string' ? errors.password_confirmation : errors.password_confirmation[0]}</div>
@@ -217,6 +226,7 @@ function RegisterPage() {
                 name="agreeTerms"
                 checked={formData.agreeTerms}
                 onChange={handleChange}
+                required
               />
               <label htmlFor="agreeTerms">
                 J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>

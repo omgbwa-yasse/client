@@ -12,11 +12,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* Ajoutez vos autres routes ici */}
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
-        <Route path="/subscription" element={<div>Abonnements</div>} />
-        <Route path="/forgot-password" element={<div>Mot de passe oublié</div>} />
         <Route path="*" element={<div>Page non trouvée</div>} />
       </Routes>
     </Router>

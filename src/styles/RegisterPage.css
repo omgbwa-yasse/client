@@ -4,83 +4,98 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f9fc;
-    padding: 20px;
+    background-color: #f5f7fa;
+    padding: 2rem;
   }
   
   .register-content {
-    width: 100%;
-    max-width: 800px;
     background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem;
     position: relative;
   }
   
   .back-button {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 1.5rem;
+    left: 1.5rem;
     background: none;
     border: none;
-    color: #2a41e8;
-    font-size: 16px;
-    font-weight: 500;
+    color: #666;
+    font-size: 1rem;
     cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color 0.2s;
   }
   
   .back-button:hover {
-    background-color: #f0f4ff;
+    color: #333;
   }
   
   .register-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 2rem;
   }
   
   .register-header h1 {
+    font-size: 1.75rem;
     color: #333;
-    font-size: 32px;
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
   }
   
   .register-header p {
-    color: #777;
-    font-size: 16px;
+    color: #666;
+    font-size: 1rem;
   }
   
   .register-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
   }
   
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
   }
   
   .form-group label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #333;
   }
   
-  .form-group input {
-    padding: 12px 16px;
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    padding: 0.75rem;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 4px;
+    font-size: 1rem;
     transition: border-color 0.2s;
   }
   
   .form-group input:focus {
+    border-color: #4a90e2;
     outline: none;
-    border-color: #2a41e8;
   }
   
   .input-error {
@@ -89,37 +104,34 @@
   
   .error-text {
     color: #f44336;
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
   }
   
-  .form-row {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .form-row .form-group {
-    flex: 1;
+  .password-requirements {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
   }
   
   .terms-checkbox {
+    display: flex;
     flex-direction: row;
     align-items: flex-start;
+    gap: 0.5rem;
   }
   
-  .terms-checkbox input {
-    margin-top: 3px;
-    margin-right: 10px;
+  .terms-checkbox input[type="checkbox"] {
+    margin-top: 0.25rem;
   }
   
   .terms-checkbox label {
-    font-size: 14px;
-    font-weight: normal;
-    color: #555;
+    font-size: 0.875rem;
+    color: #666;
   }
   
   .terms-checkbox a {
-    color: #2a41e8;
+    color: #4a90e2;
     text-decoration: none;
   }
   
@@ -128,36 +140,35 @@
   }
   
   .register-submit-button {
-    background-color: #2a41e8;
+    background-color: #4a90e2;
     color: white;
     border: none;
-    border-radius: 6px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-top: 10px;
   }
   
   .register-submit-button:hover {
-    background-color: #1a31d8;
+    background-color: #3a7bc8;
   }
   
   .register-submit-button:disabled {
-    background-color: #a0a0a0;
+    background-color: #a0c3e8;
     cursor: not-allowed;
   }
   
   .login-link {
     text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
     color: #666;
   }
   
   .login-link a {
-    color: #2a41e8;
+    color: #4a90e2;
     text-decoration: none;
     font-weight: 500;
   }
@@ -166,102 +177,38 @@
     text-decoration: underline;
   }
   
+  .api-error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+  
   .success-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 30px;
+    padding: 2rem;
   }
   
   .success-icon {
-    width: 70px;
-    height: 70px;
     background-color: #4caf50;
     color: white;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
   }
   
   .success-message h2 {
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 0.5rem;
   }
   
   .success-message p {
-    color: #777;
-  }
-  
-  /* Mise à jour du CSS HomePage pour les boutons d'action */
-  .account-actions {
-    text-align: center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-  }
-  
-  .account-actions p {
-    margin-bottom: 15px;
     color: #666;
-  }
-  
-  .action-buttons {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .register-button, .subscription-button {
-    flex: 1;
-    padding: 12px 15px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .register-button {
-    background-color: #2a41e8;
-    color: white;
-    border: none;
-  }
-  
-  .register-button:hover {
-    background-color: #1a31d8;
-  }
-  
-  .subscription-button {
-    background-color: #f0f4ff;
-    color: #2a41e8;
-    border: 1px solid #2a41e8;
-  }
-  
-  .subscription-button:hover {
-    background-color: #e1e7ff;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .form-row {
-      flex-direction: column;
-      gap: 20px;
-    }
-    
-    .action-buttons {
-      flex-direction: column;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .register-content {
-      padding: 20px;
-    }
-    
-    .register-header h1 {
-      font-size: 24px;
-    }
   }
