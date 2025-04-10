@@ -1,19 +1,21 @@
 // src/pages/RegisterPage.js
 import React, { useState } from 'react';
 import '../styles/RegisterPage.css';
+import axios from 'axios';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    password_confirmation: '',
     agreeTerms: false
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,17 +23,25 @@ function RegisterPage() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+    
+    
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: null
+      });
+    }
   };
 
   const validate = () => {
     const newErrors = {};
     
-    // Nom validation
+    
     if (!formData.name.trim()) {
       newErrors.name = 'Le nom est requis';
     }
     
-    // Email validation
+    
     if (!formData.email) {
       newErrors.email = 'L\'email est requis';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -41,13 +51,13 @@ function RegisterPage() {
     // Password validation
     if (!formData.password) {
       newErrors.password = 'Le mot de passe est requis';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Le mot de passe doit contenir au moins 8 caractères';
     }
     
     // Confirm password validation
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
+    if (formData.password !== formData.password_confirmation) {
+      newErrors.password_confirmation = 'Les mots de passe ne correspondent pas';
     }
     
     // Terms validation
@@ -58,24 +68,54 @@ function RegisterPage() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
+      setApiError('');
       
-      // Simuler un appel API
-      setTimeout(() => {
-        console.log('Formulaire soumis:', formData);
-        setIsSubmitting(false);
-        setSubmitSuccess(true);
+      try {
+        // Préparation des données pour l'API
+        const apiData = {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.password_confirmation
+        };
         
-        // Redirection après création réussie
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 2000);
-      }, 1500);
+        // Appel à l'API d'enregistrement
+        const response = await axios.post('/register', apiData);
+        
+        if (response.data.success) {
+          setSubmitSuccess(true);
+          
+          // Stockage des informations utilisateur dans localStorage si nécessaire
+          localStorage.setItem('user', JSON.stringify(response.data.data.user));
+          
+          // Redirection après création réussie
+          setTimeout(() => {
+            window.location.href = '/Dashboard';
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'inscription :', error);
+        
+        if (error.response && error.response.data) {
+          // Gérer les erreurs de validation renvoyées par l'API
+          if (error.response.data.errors) {
+            setErrors(error.response.data.errors);
+          } else {
+            // Message d'erreur général
+            setApiError(error.response.data.message || 'Une erreur est survenue lors de l\'inscription.');
+          }
+        } else {
+          setApiError('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
+        }
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -105,6 +145,8 @@ function RegisterPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="register-form">
+            {apiError && <div className="api-error-message">{apiError}</div>}
+            
             <div className="form-group">
               <label htmlFor="name">Nom complet</label>
               <input
@@ -116,7 +158,7 @@ function RegisterPage() {
                 placeholder="Entrez votre nom"
                 className={errors.name ? 'input-error' : ''}
               />
-              {errors.name && <div className="error-text">{errors.name}</div>}
+              {errors.name && <div className="error-text">{typeof errors.name === 'string' ? errors.name : errors.name[0]}</div>}
             </div>
             
             <div className="form-group">
@@ -130,7 +172,7 @@ function RegisterPage() {
                 placeholder="Entrez votre email"
                 className={errors.email ? 'input-error' : ''}
               />
-              {errors.email && <div className="error-text">{errors.email}</div>}
+              {errors.email && <div className="error-text">{typeof errors.email === 'string' ? errors.email : errors.email[0]}</div>}
             </div>
             
             <div className="form-row">
@@ -145,22 +187,25 @@ function RegisterPage() {
                   placeholder="Créez un mot de passe"
                   className={errors.password ? 'input-error' : ''}
                 />
-                {errors.password && <div className="error-text">{errors.password}</div>}
+                {errors.password && <div className="error-text">{typeof errors.password === 'string' ? errors.password : errors.password[0]}</div>}
+                <div className="password-requirements">
+                  Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un symbole.
+                </div>
               </div>
               
               <div className="form-group">
-                <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+                <label htmlFor="password_confirmation">Confirmer le mot de passe</label>
                 <input
                   type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  value={formData.password_confirmation}
                   onChange={handleChange}
                   placeholder="Confirmez votre mot de passe"
-                  className={errors.confirmPassword ? 'input-error' : ''}
+                  className={errors.password_confirmation ? 'input-error' : ''}
                 />
-                {errors.confirmPassword && (
-                  <div className="error-text">{errors.confirmPassword}</div>
+                {errors.password_confirmation && (
+                  <div className="error-text">{typeof errors.password_confirmation === 'string' ? errors.password_confirmation : errors.password_confirmation[0]}</div>
                 )}
               </div>
             </div>

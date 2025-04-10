@@ -1,42 +1,47 @@
 // src/pages/HomePage.js
 import React, { useState } from 'react';
 import '../styles/HomePage.css';
+import axios from 'axios';
 
 function HomePage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Simple validation
-    if (!email || !password) {
-      setError('Veuillez remplir tous les champs');
-      return;
-    }
+  const handleSubmit = async (e) => {
+           try{
+                const response = await axios.post('/auth/login', {
+                  email,
+                  password,
+                  remember_me: rememberMe
+                });
 
-    // Handle login logic here
-    console.log('Connexion avec:', { email, password, rememberMe });
-    
-    // Reset form and error on success
-    setError('');
+                if (response.data.success) {
+                  localStorage.setItem('token', response.data.access_token);
+                  localStorage.setItem('tokenExpiry', Date.now() + (12 * 60 * 1000)); 
+          
+                  window.location.href = '/dashboard';
+                  console.log('Connexion réussie');
+      
+                } else {
+                  setError('Erreur lors de la connexion');
+                }
+           }
+           catch(error) { 
+                console.error('Erreur lors de la connexion:', error);
+                setError('Erreur lors de la connexion. Vérifiez vos identifiants.');
+                setIsLoading(false);
+                return;
+           }   
+
+          setIsLoading(true);
   };
-
-
 
   const navigateToRegister = () => {
     window.location.href = '/register';
   };
-
-  const navigateToSubscription = () => {
-    window.location.href = '/subscription';
-  };
-
-
-
-
 
   return (
     <div className="home-container">
@@ -55,7 +60,7 @@ function HomePage() {
               <p>Connectez-vous pour accéder à votre compte</p>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message" aria-live="assertive">{error}</div>}
 
             <form onSubmit={handleSubmit} className="login-form">
               <div className="form-group">
@@ -66,6 +71,7 @@ function HomePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Votre adresse email"
+                  aria-required="true"
                 />
               </div>
 
@@ -77,6 +83,7 @@ function HomePage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Votre mot de passe"
+                  aria-required="true"
                 />
               </div>
 
@@ -95,12 +102,21 @@ function HomePage() {
                 </a>
               </div>
 
-              <button type="submit" className="login-button">
-                Se connecter
+              <button type="submit" className="login-button" disabled={isLoading} aria-busy={isLoading}>
+                {isLoading ? 'Connexion en cours...' : 'Se connecter'}
               </button>
 
+              <div className="register-option">
+                <p>Pas encore de compte?</p>
+                <button
+                  type="button"
+                  onClick={navigateToRegister}
+                  className="register-link"
+                >
+                  S'inscrire
+                </button>
+              </div>
             </form>
-
           </div>
         </div>
       </div>
